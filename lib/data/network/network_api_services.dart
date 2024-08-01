@@ -16,8 +16,8 @@ class NetworkApiServices extends BaseApiServices {
     try {
       final response = await _dio.get(url);
       jsonResponse = returnJsonResponse(response);
-    } on SocketException {
-      throw InternetException("NO Internet is available right now");
+    }  on DioException  {
+      throw InternetException("No Internet");
     }
     return jsonResponse;
   }
@@ -29,21 +29,25 @@ class NetworkApiServices extends BaseApiServices {
     }
     dynamic jsonResponse;
     try {
+
       final response = await _dio.post(url, data: data);
+
       jsonResponse = returnJsonResponse(response);
-    } on SocketException {
-      throw InternetException("NO Internet is available right now");
+    } on DioException {
+
+      throw InternetException("No Internet");
     }
     return jsonResponse;
   }
 }
 
 dynamic returnJsonResponse(Response<dynamic> response) {
+  print('returnJsonResponse=');
   switch (response.statusCode) {
     case 200:
       return response.data;
     case 400:
-      throw BadRequestException(response.data);
+      throw response.data;
     case 401:
       throw UnauthorizedException(response.data);
     default:

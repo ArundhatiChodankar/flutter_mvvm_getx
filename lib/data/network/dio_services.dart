@@ -1,12 +1,14 @@
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_mvvm_getx/res/url/app_urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioService {
   DioService() {
     final options = BaseOptions(
-      //baseUrl: AppUrls.baseUrl,
+      baseUrl: AppUrls.baseUrl,
       headers: {HttpHeaders.authorizationHeader: 'Bearer ${getToken()}'},
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
